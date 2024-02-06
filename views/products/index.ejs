@@ -1,16 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 10px;
+            padding: 0px;
+        }
+
+        h1 {
+            text-align: left;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
 </head>
+
 <body>
-    <h1>All Products</h1>
-    <ul>
-        <% for( let product of products ) { %>
-        <li> <%= product.name %> - <%= product.brand %> </li>
-        <% } %>
-    </ul>
+    <div data-aos="fade-down" data-aos-duration="1000" class="container">
+        <h1>All Products</h1>
+        <ul>
+            <% for( let product of products ) { %>
+                <li>
+                    <a href="/products/<%= product._id %>">
+                        <%= product.name %> - <%= product.brand %>
+                    </a>
+                </li>
+                <% } %>
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 </body>
+
 </html>
