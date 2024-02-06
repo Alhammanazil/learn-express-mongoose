@@ -26,8 +26,13 @@ app.get('/', (req, res) => {
 });
 
 app.get('/products', async (req, res) => {
-    const products = await Product.find({});
-    res.render('products/index', { products });
+    try {
+        const products = await Product.find({});
+        res.render('products/index', { products });
+    } catch (err) {
+        console.error('Error retrieving products', err);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 app.get('/products/create', (req, res) => {
@@ -35,27 +40,58 @@ app.get('/products/create', (req, res) => {
 });
 
 app.post('/products', async (req, res) => {
-    const product = new Product(req.body);
-    await product.save();
-    res.redirect(`/products/${product._id}`);
+    try {
+        const product = new Product(req.body);
+        await product.save();
+        res.redirect(`/products/${product._id}`);
+    } catch (err) {
+        console.error('Error creating product', err);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 app.get('/products/:id', async (req, res) => {
-    const { id } = req.params;
-    const product = await Product.findById(id);
-    res.render('products/show', { product });
+    try {
+        const { id } = req.params;
+        const product = await Product.findById(id);
+        res.render('products/show', { product });
+    } catch (err) {
+        console.error('Error retrieving product', err);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 app.get('/products/:id/edit', async (req, res) => {
-    const { id } = req.params;
-    const product = await Product.findById(id);
-    res.render('products/edit', { product });
+    try {
+        const { id } = req.params;
+        const product = await Product.findById(id);
+        res.render('products/edit', { product });
+    } catch (err) {
+        console.error('Error retrieving product for editing', err);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 app.put('/products/:id', async (req, res) => {
-    const { id } = req.params;
-    const product = await Product.findByIdAndUpdate(id, req.body, { runValidators: true });
-    res.redirect(`/products/${product._id}`);
+    try {
+        const { id } = req.params;
+        const product = await Product.findByIdAndUpdate(id, req.body, { runValidators: true });
+        res.redirect(`/products/${product._id}`);
+    } catch (err) {
+        console.error('Error updating product', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.delete('/products/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Product.findByIdAndDelete(id);
+        res.redirect('/products');
+    } catch (err) {
+        console.error('Error deleting product', err);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 
