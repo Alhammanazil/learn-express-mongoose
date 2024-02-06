@@ -21,10 +21,6 @@ yarn.lock
 # Testing files
 coverage/
 
-# Compiled files
-*.js
-*.map
-
 # Miscellaneous
 .DS_Store
 Thumbs.db
