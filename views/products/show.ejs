@@ -45,16 +45,15 @@
             <%= product.name %>
         </h1>
         <ul>
-            <li>Brand: <%= product.brand %>
-            </li>
-            <li>Warna: <%= product.color %>
-            </li>
-            <li>Ukuran: <%= product.size %>
-            </li>
-            <li>Harga: <%= product.price %>
-            </li>
+            <li>Brand: <%= product.brand %></li>
+            <li>Warna: <%= product.color %></li>
+            <li>Harga: <%= product.price %></li>
+            <li>Category: <%= product.category %></li>
         </ul>
-        <a href="/products">All Product</a>
+        <div>
+            <a href="/products/<%= product._id %>/edit" class="btn btn-dark">Edit</a>
+            <a href="/products" class="btn btn-dark">Back</a>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
