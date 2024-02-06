@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // Models
-const Product = require('./models/product');
+const Product = require('./models/products');
 
 // Connect to MongoDB
 mongoose.connect('mongodb://127.0.0.1/shop_db')
@@ -20,6 +20,11 @@ app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
     res.send('Hello World');
+});
+
+app.get('/products', async (req, res) => {
+    const products = await Product.find({});
+    res.render('products/index', { products });
 });
 
 app.listen(3000, () => {
