@@ -27,8 +27,15 @@ app.get('/', (req, res) => {
 
 app.get('/products', async (req, res) => {
     try {
-        const products = await Product.find({});
-        res.render('products/index', { products });
+        const { category } = req.query;
+        let products;
+        if (category) {
+            products = await Product.find({ category });
+            return res.render('products/index', { products, category });
+        } else {
+            products = await Product.find({});
+            return res.render('products/index', { products, category: 'All' });
+        }
     } catch (err) {
         console.error('Error retrieving products', err);
         res.status(500).send('Internal Server Error');
