@@ -22,6 +22,12 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+function wrapAsync(fn) {
+    return function(req, res, next) {
+        fn(req, res, next).catch(err => next(err));
+    }
+}
+
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
@@ -47,7 +53,7 @@ app.get('/products/create', (req, res) => {
     res.render('products/create');
 });
 
-app.post('/products', async (req, res) => {
+app.post('/products', wrapAsync(async (req, res) => {
     try {
         const product = new Product(req.body);
         await product.save();
@@ -55,19 +61,15 @@ app.post('/products', async (req, res) => {
     } catch (err) {
         throw new ErrorHandler('Product not found', 404);
     }
-});
+}));
 
-app.get('/products/:id', async (req, res, next) => {
-    try {
+app.get('/products/:id', wrapAsync(async (req, res) => {
         const { id } = req.params;
         const product = await Product.findById(id);
         res.render('products/show', { product });
-    } catch (err) {
-        next(new ErrorHandler('Product not found', 404));
-    }
-});
+}));
 
-app.get('/products/:id/edit', async (req, res) => {
+app.get('/products/:id/edit', wrapAsync(async (req, res) => {
     try {
         const { id } = req.params;
         const product = await Product.findById(id);
@@ -75,9 +77,9 @@ app.get('/products/:id/edit', async (req, res) => {
     } catch (err) {
         next(new ErrorHandler('Product not found', 404));
     }
-});
+}));
 
-app.put('/products/:id', async (req, res) => {
+app.put('/products/:id', wrapAsync(async (req, res) => {
     try {
         const { id } = req.params;
         const product = await Product.findByIdAndUpdate(id, req.body, { runValidators: true });
@@ -86,9 +88,9 @@ app.put('/products/:id', async (req, res) => {
         console.error('Error updating product', err);
         res.status(500).send('Internal Server Error');
     }
-});
+}));
 
-app.delete('/products/:id', async (req, res) => {
+app.delete('/products/:id', wrapAsync(async (req, res) => {
     try {
         const { id } = req.params;
         await Product.findByIdAndDelete(id);
@@ -97,7 +99,7 @@ app.delete('/products/:id', async (req, res) => {
         console.error('Error deleting product', err);
         res.status(500).send('Internal Server Error');
     }
-});
+}));
 
 app.use((err, req, res, next) => {
     const { status = 500, message = 'Internal Server Error' } = err;
