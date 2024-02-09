@@ -54,13 +54,9 @@ app.get('/products/create', (req, res) => {
 });
 
 app.post('/products', wrapAsync(async (req, res) => {
-    try {
         const product = new Product(req.body);
         await product.save();
         res.redirect(`/products/${product._id}`);
-    } catch (err) {
-        throw new ErrorHandler('Product not found', 404);
-    }
 }));
 
 app.get('/products/:id', wrapAsync(async (req, res) => {
@@ -70,36 +66,38 @@ app.get('/products/:id', wrapAsync(async (req, res) => {
 }));
 
 app.get('/products/:id/edit', wrapAsync(async (req, res) => {
-    try {
         const { id } = req.params;
         const product = await Product.findById(id);
         res.render('products/edit', { product });
-    } catch (err) {
-        next(new ErrorHandler('Product not found', 404));
-    }
 }));
 
 app.put('/products/:id', wrapAsync(async (req, res) => {
-    try {
         const { id } = req.params;
         const product = await Product.findByIdAndUpdate(id, req.body, { runValidators: true });
         res.redirect(`/products/${product._id}`);
-    } catch (err) {
-        console.error('Error updating product', err);
-        res.status(500).send('Internal Server Error');
-    }
 }));
 
 app.delete('/products/:id', wrapAsync(async (req, res) => {
-    try {
         const { id } = req.params;
         await Product.findByIdAndDelete(id);
         res.redirect('/products');
-    } catch (err) {
-        console.error('Error deleting product', err);
-        res.status(500).send('Internal Server Error');
-    }
 }));
+
+const validatorHandler = err => {
+    err.status = 400;
+    err.message = Object.values(err.errors).map(item => item.message);
+    return new ErrorHandler(err.message, err.status);
+}
+
+app.use((err, req, res, next) => {
+    console.dir(err);
+    if (err.name === 'ValidationError') err = validatorHandler(err);
+    if (err.name === 'CastError') {
+        err.status = 404;
+        err.message = 'Product not found';
+    }
+    next(err);
+});
 
 app.use((err, req, res, next) => {
     const { status = 500, message = 'Internal Server Error' } = err;

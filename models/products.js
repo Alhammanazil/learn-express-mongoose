@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'nama tidak boleh kosong']
+        required: [true, 'Product name is required']
     },
     brand: {
         type: String,
