@@ -3,6 +3,7 @@ const express = require('express');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const app = express();
+const ErrorHandler = require('./ErrorHandler');
 
 // Models
 const Product = require('./models/products');
@@ -52,19 +53,17 @@ app.post('/products', async (req, res) => {
         await product.save();
         res.redirect(`/products/${product._id}`);
     } catch (err) {
-        console.error('Error creating product', err);
-        res.status(500).send('Internal Server Error');
+        throw new ErrorHandler('Product not found', 404);
     }
 });
 
-app.get('/products/:id', async (req, res) => {
+app.get('/products/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
         const product = await Product.findById(id);
         res.render('products/show', { product });
     } catch (err) {
-        console.error('Error retrieving product', err);
-        res.status(500).send('Internal Server Error');
+        next(new ErrorHandler('Product not found', 404));
     }
 });
 
@@ -74,8 +73,7 @@ app.get('/products/:id/edit', async (req, res) => {
         const product = await Product.findById(id);
         res.render('products/edit', { product });
     } catch (err) {
-        console.error('Error retrieving product for editing', err);
-        res.status(500).send('Internal Server Error');
+        next(new ErrorHandler('Product not found', 404));
     }
 });
 
@@ -101,6 +99,10 @@ app.delete('/products/:id', async (req, res) => {
     }
 });
 
+app.use((err, req, res, next) => {
+    const { status = 500, message = 'Internal Server Error' } = err;
+    res.status(status).send(message);
+});
 
 app.listen(3000, () => {
     console.log('Shop App listening on http://127.0.0.1:3000')
