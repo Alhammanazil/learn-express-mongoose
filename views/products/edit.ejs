@@ -62,7 +62,11 @@
 <body>
     <div data-aos="fade-up" data-aos-duration="1500" class="container">
         <h1>Edit a Product</h1>
-        <form action="/products/<%= product._id %>?_method=PUT" method="post" data-aos="fade-up" data-aos-duration="1000">
+        <link rel="shortcut icon"
+            href="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/768px-JavaScript-logo.png"
+            type="image/x-icon">
+        <form action="/products/<%= product._id %>?_method=PUT" method="post" data-aos="fade-up"
+            data-aos-duration="1000">
             <div>
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" value="<%= product.name %>">

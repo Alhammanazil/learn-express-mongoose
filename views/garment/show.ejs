@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Product</title>
+    <title>Detail Garment</title>
     <link rel="shortcut icon"
         href="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/768px-JavaScript-logo.png"
         type="image/x-icon">
@@ -45,27 +45,20 @@
 <body>
     <div data-aos="fade-up" data-aos-duration="1000" class="container">
         <h1>
-            <%= product.name %>
+            <%= garment.name %>
         </h1>
         <ul>
-            <li>Brand: <%= product.brand %>
+            <li>Location: <%= garment.location %>
             </li>
-            <li>Warna: <%= product.color %>
-            </li>
-            <li>Harga: <%= product.price %>
-            </li>
-            <li>
-                Category: <a href="/products?category=<%= product.category %>">
-                    <%= product.category %>
-                </a>
+            <li>Contact: <%= garment.contact %>
             </li>
         </ul>
         <div>
-            <a href="/products/<%= product._id %>/edit" class="btn btn-primary">Edit</a>
+            <a href="/garments/<%= garment._id %>/edit" class="btn btn-primary">Edit</a>
 
-            <a href="/products" class="btn btn-dark">Back</a>
+            <a href="/garments" class="btn btn-dark">Back</a>
 
-            <form action="/products/<%= product._id %>?_method=DELETE" method="post">
+            <form action="/garments/<%= garment._id %>?_method=DELETE" method="post">
                 <button type="submit">Delete</button>
             </form>
         </div>
