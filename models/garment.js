@@ -17,3 +17,7 @@ const garmentSchema = new mongoose.Schema({
         ref: 'Product'
     }]
 })
+
+const Garment = mongoose.model('Garment', garmentSchema)
+
+module.exports = Garment

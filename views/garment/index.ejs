@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garment</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 10px;
+            padding: 0px;
+        }
+
+        h1 {
+            text-align: left;
+            color: #333;
+        }
+
+        ul.custom-list-group {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li.custom-list-group-item {
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+</head>
+
+<body>
+    <div data-aos="fade-down" data-aos-duration="1000" class="container">
+        <h1>All Garment</h1><br>
+        <a href="garments/create" class="btn btn-dark">Add Garment</a><br><br>
+
+        <ul class="custom-list-group">
+            <% for(let garment of garments) { %>
+                <li class="custom-list-group-item">
+                    <a href="/garments/<%= garment._id %>">
+                        <%= garment.name %> - <%= garment.location %>
+                    </a>
+                </li>
+                <% } %>
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+
+</html>
