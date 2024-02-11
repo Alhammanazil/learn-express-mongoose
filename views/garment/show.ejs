@@ -53,16 +53,30 @@
             <li>Contact: <%= garment.contact %>
             </li>
         </ul>
-        <div>
-            <a href="/garments/<%= garment._id %>/edit" class="btn btn-primary">Edit</a>
 
+        <h3>Product</h3>
+        <ul>
+            <% for(let product of garment.products) { %>
+                <li>
+                    <a href="/products/<%= product._id %>">
+                        <%= product.name %> - <%= product.brand %>
+                    </a>
+                </li>
+            <% }; %>
+        </ul>
+
+        <div>
             <a href="/garments" class="btn btn-dark">Back</a>
 
-            <form action="/garments/<%= garment._id %>?_method=DELETE" method="post">
-                <button type="submit">Delete</button>
-            </form>
+            <a href="/garments/<%= garment._id %>" class="btn btn-dark">
+                <%= garment.name %>
+            </a>
 
-            <a href="/garments/<%= garment._id %>/products/create">Add Product</a>
+            <a href="/garments/<%= garment._id %>/edit" class="btn btn-primary">Edit</a>
+
+            <a href="/garments/<%= garment._id %>?_method=DELETE" class="btn btn-danger">Delete</a> <br><br>
+
+            <a href="/garments/<%= garment._id %>/products/create" class="btn btn-secondary">Add Product</a>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

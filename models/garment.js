@@ -9,7 +9,7 @@ const garmentSchema = new mongoose.Schema({
         type: String,
     },
     contact: {
-        type: Number,
+        type: String,
         required: [true, 'Contact is required']
     },
     products: [{

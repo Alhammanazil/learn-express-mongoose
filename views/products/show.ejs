@@ -38,6 +38,10 @@
             width: 1em;
             margin-left: -1em;
         }
+
+        .btn {
+            margin-right: 5px;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
 </head>
@@ -61,13 +65,25 @@
             </li>
         </ul>
         <div>
+
+            <h2>Garment:</h2>
+            <ul>
+                <li>
+                    <a href="/garments/<%= product.garment._id %>">
+                        <%= product.garment.name %>
+                    </a>
+                </li>
+            </ul>
+
             <a href="/products/<%= product._id %>/edit" class="btn btn-primary">Edit</a>
 
             <a href="/products" class="btn btn-dark">Back</a>
 
-            <form action="/products/<%= product._id %>?_method=DELETE" method="post">
-                <button type="submit">Delete</button>
-            </form>
+            <a href="/products/<%= product._id %>?_method=DELETE" class="btn btn-danger">Delete</a>
+
+            <!-- <form action="/products/<%= product._id %>?_method=DELETE" method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form> -->
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
