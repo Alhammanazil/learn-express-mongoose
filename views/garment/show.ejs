@@ -61,6 +61,8 @@
             <form action="/garments/<%= garment._id %>?_method=DELETE" method="post">
                 <button type="submit">Delete</button>
             </form>
+
+            <a href="/garments/<%= garment._id %>/products/create">Add Product</a>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
