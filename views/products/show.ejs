@@ -67,6 +67,7 @@
         <div>
 
             <h2>Garment:</h2>
+            <% if (product.garment) { %>
             <ul>
                 <li>
                     <a href="/garments/<%= product.garment._id %>">
@@ -74,16 +75,15 @@
                     </a>
                 </li>
             </ul>
+            <% } %>
 
             <a href="/products/<%= product._id %>/edit" class="btn btn-primary">Edit</a>
 
-            <a href="/products" class="btn btn-dark">Back</a>
-
-            <a href="/products/<%= product._id %>?_method=DELETE" class="btn btn-danger">Delete</a>
-
-            <!-- <form action="/products/<%= product._id %>?_method=DELETE" method="post">
+            <form action="/products/<%= product._id %>?_method=DELETE" method="post" style="display: inline;">
                 <button type="submit" class="btn btn-danger">Delete</button>
-            </form> -->
+            </form>
+
+            <a href="/products" class="btn btn-dark">Back</a>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
